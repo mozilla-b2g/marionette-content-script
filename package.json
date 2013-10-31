@@ -1,6 +1,6 @@
 {
   "name": "marionette-content-script",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Preloads a given file into all content contexts",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "",
   "license": "Apache2",
   "devDependencies": {
-    "marionette-client": "~0.15.0",
+    "marionette-client": "1.0.0",
     "marionette-js-runner": "~0.2.0",
     "mozilla-download": "~0.2.1",
     "marionette-apps": "~0.3.0"
