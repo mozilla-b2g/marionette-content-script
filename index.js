@@ -18,7 +18,10 @@ function xpcomLoadFrameScript(dataURI) {
     XPCOMUtils.defineLazyServiceGetter(this, 'ppmm',
       '@mozilla.org/parentprocessmessagemanager;1', 'nsIMessageBroadcaster');
 
-    var Loader = {
+    // TODO: Remove `legacyLoader`.
+    // See "Bug 952177 - [marionette-content-script] Remove listeners for
+    // deprecated Service notifications"
+    var legacyLoader = {
       init: function() {
         Services.obs.addObserver(
           this, 'remote-browser-frame-show', false
@@ -40,7 +43,28 @@ function xpcomLoadFrameScript(dataURI) {
       }
     };
 
-    Loader.init();
+    legacyLoader.init();
+
+    var Loader = function() {};
+    Loader.prototype.attach = function(service) {
+      service.addObserver(this, 'remote-browser-shown', false);
+      service.addObserver(this, 'inprocess-browser-shown', false);
+    };
+    Loader.prototype.observe = function(subject, topic, data) {
+      var frameLoader = subject.QueryInterface(Ci.nsIFrameLoader);
+
+      // The 'remote-browser-shown' and 'inprocess-browser-shown' notifications
+      // are sent from all frames. Ignore all but those originating from a
+      // "browser or app" frame.
+      if (!frameLoader.ownerIsBrowserOrAppFrame) {
+        return;
+      }
+
+      legacyLoader.observe.apply(null, arguments);
+    };
+
+    var loader = new Loader();
+    loader.attach(Services.obs);
   }());
 }
 
