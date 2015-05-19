@@ -1,18 +1,6 @@
-# marionette-content-script
+marionette-js-runner
+====================
 
-A marionette plugin for injecting (or replacing) apis exposed to content
-frames (apps, browser tabs)
+[![You shall not pass](http://cdn.meme.am/instances/500x/62331333.jpg)](https://github.com/mozilla-b2g/gaia/tree/master/tests/jsmarionette)
 
-
-## Usage
-
-"Injected" scripts will be presented and loaded before all other scripts loaded by normal content.
-Currently there is no way to remove a script from the marionette context after exposing it.
-
-```js
-// expose to marionette
-client.plugin('contentScript', require('marionette-content-script'));
-
-// inject a file from the file system into all page loads
-client.contentScript.inject(__dirname + '/myabsolute/path/to/file.js');
-```
+Development has moved [here](https://github.com/mozilla-b2g/gaia/tree/master/tests/jsmarionette). Please submit your bugs to [bugzilla](https://bugzilla.mozilla.org) and send your pull requests to [mozilla-b2g/gaia](https://github.com/mozilla-b2g/gaia).
